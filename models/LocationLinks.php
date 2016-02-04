@@ -7,7 +7,7 @@ use Yii;
 /**
  * This is the model class for table "{{%location_links}}".
  */
-class LocationLinks extends \yii\db\ActiveRecord
+class LocationLinks extends \geolocation\components\CommonRecord
 {
     /**
      * @inheritdoc
@@ -23,7 +23,7 @@ class LocationLinks extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['upper_id','lower_id','level'], 'required'],
+            [['upper_id','lower_id'], 'required'],
             
             [['upper_id','lower_id','level'], 'integer'],
             [['upper_id','lower_id'], 'unique', 'targetAttribute' => ['upper_id','lower_id']]

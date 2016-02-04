@@ -7,24 +7,20 @@ use Yii;
 /**
  * This is the model class for table "{{%location}}".
  */
-class Location extends \yii\db\ActiveRecord
+class Location extends \geolocation\components\CommonRecord
 {
     /**
      * list of location types
      */
     public static $types = [
-        'GROUP' => 0,               // группа
-        
-        'CONTINENT' => 1,           // континент
-        'REGION' => 2,              // регион
-        'COUNTRY' => 3,             // страна
-        'COUNTRY_DISTRICT' => 4,    // часть (район, округ, область) страны
-        'SUBJECT_FEDERATION' => 5,  // субъект федерации
-        'CITY' => 6,                // город
-        'VILLAGE' => 7,             // деревня
-        'CITY_DISTRICT' => 8,       // район города
-        'METRO_STATION' => 9,       // станция метро
-        'OTHER' => 10,              // другое
+        'COUNTRY_GROUP' => 1,   // группа стран
+        'COUNTRY' => 3,         // страна
+        'REGION_GROUP' => 4,    // федеральный округ
+        'REGION' => 5,          // субъект федерации (область, республика, край)
+        'COUNTY' => 6,          // район области
+        'CITY' => 7,            // город
+        'STREET' => 8,          // улица
+        'HOUSE' => 9,           // дом
     ];
     
     /**

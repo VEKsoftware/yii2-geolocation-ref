@@ -11,6 +11,11 @@ class GeoLocation extends \yii\base\Module
     public $controllerNamespace = 'geolocation\controllers';
     
     /**
+     * Database component to use in the module
+     */
+    public $db;
+    
+    /**
      * @inheritdoc
      */
     public function init()

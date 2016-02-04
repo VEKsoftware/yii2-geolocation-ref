@@ -7,7 +7,7 @@ use Yii;
 /**
  * This is the model class for table "{{%location_timezones}}".
  */
-class LocationTimeZones extends \yii\db\ActiveRecord
+class LocationTimeZones extends \geolocation\components\CommonRecord
 {
     /**
      * @inheritdoc
