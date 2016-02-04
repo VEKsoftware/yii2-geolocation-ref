@@ -14,13 +14,13 @@ class Location extends \geolocation\components\CommonRecord
      */
     public static $types = [
         'COUNTRY_GROUP' => 1,   // группа стран
-        'COUNTRY' => 3,         // страна
-        'REGION_GROUP' => 4,    // федеральный округ
-        'REGION' => 5,          // субъект федерации (область, республика, край)
-        'COUNTY' => 6,          // район области
-        'CITY' => 7,            // город
-        'STREET' => 8,          // улица
-        'HOUSE' => 9,           // дом
+        'COUNTRY' => 2,         // страна
+        'REGION_GROUP' => 3,    // федеральный округ
+        'REGION' => 4,          // субъект федерации (область, республика, край)
+        'COUNTY' => 5,          // район области
+        'CITY' => 6,            // город
+        'STREET' => 7,          // улица
+        'HOUSE' => 8,           // дом
     ];
     
     /**
