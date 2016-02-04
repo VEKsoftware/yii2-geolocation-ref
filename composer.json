@@ -1,0 +1,21 @@
+{
+    "name": "VEKsoftware/yii2-geolocation-ref",
+    "description": "Geographical reference module to store Countries, Cities et al location data as well as timezones for those locations ",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension","location"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mikhail Eremeev",
+            "email": "velonski@yandex.ru"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "geolocation\\": ""
+        }
+    }
+}
