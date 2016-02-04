@@ -1,6 +1,8 @@
 GeoLocation module
 ==========
 
+This module is aimed to store the locational data like Countries and Cities as well as timezones for them.
+
 
 Installation
 ------------
