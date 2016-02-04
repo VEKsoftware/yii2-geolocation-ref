@@ -14,6 +14,7 @@ class Location extends \yii\db\ActiveRecord
      */
     public static $types = [
         'GROUP' => 0,               // группа
+        
         'CONTINENT' => 1,           // континент
         'REGION' => 2,              // регион
         'COUNTRY' => 3,             // страна
@@ -73,7 +74,7 @@ class Location extends \yii\db\ActiveRecord
      */
     public function getLocationLinksLower()
     {
-        return $this->hasMany(Location::className(), ['upper_id' => 'id']);
+        return $this->hasMany(LocationLinks::className(), ['upper_id' => 'id']);
     }
 
     /**
@@ -89,7 +90,7 @@ class Location extends \yii\db\ActiveRecord
      */
     public function getLocationLinksUpper()
     {
-        return $this->hasMany(Location::className(), ['lower_id' => 'id']);
+        return $this->hasMany(LocationLinks::className(), ['lower_id' => 'id']);
     }
 
     /**
