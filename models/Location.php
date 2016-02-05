@@ -96,11 +96,16 @@ class Location extends \geolocation\components\CommonRecord
      */
     public function behaviors()
     {
-        return [
-            'access'=>[
-                'class'=>\geolocation\GeoLocation::getInstance()->accessClass,
-            ],
-        ];
+        $module = \geolocation\GeoLocation::getInstance();
+        if(is_object($module)) {
+            return [
+                'access'=>[
+                    'class'=> $module->accessClass,
+                ],
+            ];
+        } else {
+            return [];
+        }
     }
 
     /**
