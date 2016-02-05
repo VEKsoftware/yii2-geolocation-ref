@@ -12,9 +12,7 @@ class CommonRecord extends ActiveRecord
     public static function getDb() {
 //        return Yii::$app->db_common;
         $instance = GeoLocation::getInstance();
-        if($instance === NULL) {
-            throw new ErrorException('You should use this class through yii2-geolocation module.');
-        } elseif(!$instance->db) {
+        if($instance === NULL || !$instance->db) {
             $db = 'db';
         } else {
             $db = $instance->db;
