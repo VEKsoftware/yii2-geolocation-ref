@@ -5,16 +5,16 @@ namespace geolocation\models;
 use Yii;
 
 /**
- * This is the model class for table "{{%location_timezones}}".
+ * This is the model class for table "{{%location_currencies}}".
  */
-class LocationTimeZones extends \geolocation\components\CommonRecord
+class LocationCurrencies extends \geolocation\components\CommonRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return '{{%location_timezones}}';
+        return '{{%location_currencies}}';
     }
 
     /**
@@ -23,12 +23,10 @@ class LocationTimeZones extends \geolocation\components\CommonRecord
     public function rules()
     {
         return [
-            [['location_id','timezone'], 'required'],
+            [['location_id','currency_id'], 'required'],
             
-            [['location_id'], 'integer'],
-            [['location_id'], 'unique'],
-            
-            [['timezone'], 'string'],
+            [['location_id','currency_id'], 'integer'],
+            [['location_id','currency_id'], 'unique', 'targetAttribute' => ['location_id','currency_id']]
         ];
     }
 
@@ -38,8 +36,8 @@ class LocationTimeZones extends \geolocation\components\CommonRecord
     public function attributeLabels()
     {
         return [
-            'location_id' => Yii::t('partneruser', 'Location ID'),
-            'timezone' => Yii::t('partneruser', 'TimeZone'),
+            'location_id' => Yii::t('partneruser', 'Location Currencies Location Id'),
+            'currency_id' => Yii::t('partneruser', 'Location Currencies Currency Id'),
         ];
     }
 
@@ -61,6 +59,14 @@ class LocationTimeZones extends \geolocation\components\CommonRecord
     public function getLocation()
     {
         return $this->hasOne(Location::className(), ['id' => 'location_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCurrency()
+    {
+        return $this->hasOne(Currency::className(), ['id' => 'currency_id']);
     }
     
 }
