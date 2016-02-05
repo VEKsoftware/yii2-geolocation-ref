@@ -43,6 +43,18 @@ class LocationLinks extends \geolocation\components\CommonRecord
     }
 
     /**
+     * @inherit
+     */
+    public function behaviors()
+    {
+        return [
+            'access'=>[
+                'class'=>\geolocation\GeoLocation::getInstance()->accessClass,
+            ],
+        ];
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getUpper()

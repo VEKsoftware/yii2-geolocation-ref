@@ -92,6 +92,18 @@ class Location extends \geolocation\components\CommonRecord
     }
 
     /**
+     * @inherit
+     */
+    public function behaviors()
+    {
+        return [
+            'access'=>[
+                'class'=>\geolocation\GeoLocation::getInstance()->accessClass,
+            ],
+        ];
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getTimeZoneObj()
@@ -108,17 +120,47 @@ class Location extends \geolocation\components\CommonRecord
     {
         if ( !empty($this->timeZoneObj) ) return $this->timeZoneObj->timezone;
         
+        $lowest = $this->findLowestUpper();
+        return ( !is_null($lowest) ) ? $lowest->timezone : null;
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCurrencyObj()
+    {
+        return $this->hasOne(LocationCurrencies::className(), ['location_id' => 'id']);
+    }
+    
+    /**
+     * currency for current object or for his nearest upper object
+     * 
+     * @return currency AS object (or return NULL)
+     */
+    public function getCurrency()
+    {
+        if ( !empty($this->currencyObj) ) return $this->currencyObj;
+        
+        $lowest = $this->findLowestUpper();
+        return ( !is_null($lowest) ) ? $lowest->currency : null;
+    }
+    
+    /**
+     * @return 
+     */
+    public function findLowestUpper()
+    {
         if( empty($this->upper) ) return null;
         
-        $lastTypeId = 0;
+        $lowestTypeId = 0;
         foreach( $this->upper as $upper ) {
-            if( $upper->type_id > $lastTypeId ) {
-                $lastTypeId = $upper->type_id;
-                $last = $upper;
+            if( $upper->type_id > $lowestTypeId ) {
+                $lowestTypeId = $upper->type_id;
+                $lowest = $upper;
             }
         }
         
-        return ( isset($last) ) ? $last->timezone : null;
+        return ( isset($lowest) ) ? $lowest : null;
     }
 
     /**
