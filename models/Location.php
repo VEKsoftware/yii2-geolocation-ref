@@ -94,9 +94,31 @@ class Location extends \geolocation\components\CommonRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTimeZone()
+    public function getTimeZoneObj()
     {
-        return $this->hasOne(LocationTimeZone::className(), ['location_id' => 'id']);
+        return $this->hasOne(LocationTimeZones::className(), ['location_id' => 'id']);
+    }
+    
+    /**
+     * timezone for current object or for his nearest upper object
+     * 
+     * @return timezone AS string (or return NULL)
+     */
+    public function getTimezone()
+    {
+        if ( !empty($this->timeZoneObj) ) return $this->timeZoneObj->timezone;
+        
+        if( empty($this->upper) ) return null;
+        
+        $lastTypeId = 0;
+        foreach( $this->upper as $upper ) {
+            if( $upper->type_id > $lastTypeId ) {
+                $lastTypeId = $upper->type_id;
+                $last = $upper;
+            }
+        }
+        
+        return ( isset($last) ) ? $last->timezone : null;
     }
 
     /**
