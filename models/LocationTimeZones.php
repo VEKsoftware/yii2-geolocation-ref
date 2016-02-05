@@ -38,8 +38,8 @@ class LocationTimeZones extends \geolocation\components\CommonRecord
     public function attributeLabels()
     {
         return [
-            'location_id' => Yii::t('partneruser', 'Location ID'),
-            'timezone' => Yii::t('partneruser', 'TimeZone'),
+            'location_id' => Yii::t('geolocation', 'Location ID'),
+            'timezone' => Yii::t('geolocation', 'TimeZone'),
         ];
     }
 

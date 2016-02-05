@@ -8,6 +8,8 @@ return [
     
     'The requested page does not exist.' => 'Страница не существует.',
     
+    'Location' => 'Местоположение',
+    
     'Currency' => 'Валюта',
     
     'Currency Name' => 'Краткое обозначение',
@@ -22,4 +24,7 @@ return [
     'Confirm Update Currency' => 'Подтвердить изменения',
     'Delete Currency' => 'Удалить',
     
+    'Location Name' => 'Наименование',
+    'Location Code' => 'Литерный код',
+    'Location Type' => 'Тип',
 ];

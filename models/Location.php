@@ -84,10 +84,10 @@ class Location extends \geolocation\components\CommonRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('partneruser', 'ID'),
-            'name' => Yii::t('partneruser', 'Location Name'),
-            'code' => Yii::t('partneruser', 'Location Code'),
-            'type_id' => Yii::t('partneruser', 'Location Type'),
+            'id' => Yii::t('geolocation', 'ID'),
+            'name' => Yii::t('geolocation', 'Location Name'),
+            'code' => Yii::t('geolocation', 'Location Code'),
+            'type_id' => Yii::t('geolocation', 'Location Type'),
         ];
     }
 
@@ -139,7 +139,7 @@ class Location extends \geolocation\components\CommonRecord
      */
     public function getCurrency()
     {
-        if ( !empty($this->currencyObj) ) return $this->currencyObj;
+        if ( !empty($this->currencyObj) ) return $this->currencyObj->currency;
         
         $lowest = $this->findLowestUpper();
         return ( !is_null($lowest) ) ? $lowest->currency : null;

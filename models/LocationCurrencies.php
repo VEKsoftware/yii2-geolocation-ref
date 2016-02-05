@@ -23,10 +23,10 @@ class LocationCurrencies extends \geolocation\components\CommonRecord
     public function rules()
     {
         return [
-            [['location_id','currency_id'], 'required'],
+            [['location_id','curr_id'], 'required'],
             
-            [['location_id','currency_id'], 'integer'],
-            [['location_id','currency_id'], 'unique', 'targetAttribute' => ['location_id','currency_id']]
+            [['location_id','curr_id'], 'integer'],
+            [['location_id','curr_id'], 'unique', 'targetAttribute' => ['location_id','currency_id']]
         ];
     }
 
@@ -36,8 +36,8 @@ class LocationCurrencies extends \geolocation\components\CommonRecord
     public function attributeLabels()
     {
         return [
-            'location_id' => Yii::t('partneruser', 'Location Currencies Location Id'),
-            'currency_id' => Yii::t('partneruser', 'Location Currencies Currency Id'),
+            'location_id' => Yii::t('geolocation', 'Location Currencies Location Id'),
+            'curr_id' => Yii::t('geolocation', 'Location Currencies Currency Id'),
         ];
     }
 
@@ -66,7 +66,7 @@ class LocationCurrencies extends \geolocation\components\CommonRecord
      */
     public function getCurrency()
     {
-        return $this->hasOne(Currency::className(), ['id' => 'currency_id']);
+        return $this->hasOne(Currency::className(), ['id' => 'curr_id']);
     }
     
 }
