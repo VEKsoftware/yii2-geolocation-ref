@@ -156,6 +156,22 @@ class Location extends \geolocation\components\CommonRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public static function findById( $id )
+    {
+        return static::find()->where(['id' => $id]);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public static function findByName( $name )
+    {
+        return static::find()->where(['like','name',$name]);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public static function findLocation( $input )
     {
         if( !is_array($input) ) return null;
@@ -192,5 +208,12 @@ class Location extends \geolocation\components\CommonRecord
         }
         
         return $query->one();
+    }
+
+    public function getFullName()
+    {
+        $uppers = $this->upper;
+        $uppers[] = $this;
+        return join(', ',ArrayHelper::getColumn($uppers,'name'));
     }
 }
