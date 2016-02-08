@@ -139,6 +139,14 @@ class Location extends \geolocation\components\CommonRecord
     /**
      * @inheritdoc
      */
+    public function getListLocationIds()
+    {
+        return $this->_listLocationIds;
+    }
+    
+    /**
+     * @inheritdoc
+     */
     public function setListLocationIds( $value )
     {
         if( is_array($value) ) {
@@ -354,11 +362,11 @@ class Location extends \geolocation\components\CommonRecord
             
         }
         
-        // $result = $query->all();
-        // if( is_array($result) && (count($result) == 1) ) return $result[0];
-        // return $result;
+        $result = $query->all();
+        if( is_array($result) && (count($result) == 1) ) return $result[0];
+        return $result;
         
-        return $query->one();
+        //return $query->one();
     }
 
     public function byTag($tag)
