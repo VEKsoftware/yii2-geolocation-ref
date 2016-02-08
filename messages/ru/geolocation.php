@@ -58,4 +58,6 @@ return [
     
     'Linked' => 'Есть связь',
     'Not linked' => 'Нет связи',
+    
+    'Some of these locations do not exist.' => 'Некоторые (или все) из переданных мест не существуют в БД.'
 ];

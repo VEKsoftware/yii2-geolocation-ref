@@ -95,7 +95,12 @@ class Location extends \geolocation\components\CommonRecord
                 if( !is_null($this->$attribute) && empty( Currency::findOne( $this->$attribute ) ) ) $this->addError($attribute, Yii::t('geolocation','This currency does not exist.') );
             } ],
             
-            [['listLocationIds'], 'validateListLocationIds'],
+            [['listLocationIds'], function($attribute, $params) {
+                if( !empty($this->_listLocationIds) ) {
+                    $count = self::find()->where(['id' => $this->_listLocationIds])->count();
+                    if( empty($count) || (intval($count) != count($this->_listLocationIds) ) ) $this->addError($attribute, Yii::t('geolocation','Some of these locations do not exist.') );
+                }
+            } ],
         ];
     }
 
@@ -141,14 +146,6 @@ class Location extends \geolocation\components\CommonRecord
         } else {
             $this->_listLocationIds = [];
         }
-    }
-    
-    /**
-     * @inheritdoc
-     */
-    public function validateListLocationIds( $attribute )
-    {
-        return true;
     }
     
     /**
