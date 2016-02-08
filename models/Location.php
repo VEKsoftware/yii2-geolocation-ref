@@ -236,7 +236,7 @@ class Location extends \geolocation\components\CommonRecord
         
         $filtered = [];
         foreach( $input as $inputKey => $inputValue ) {
-            if( isset( $listTypes[$inputKey] ) $filtered[$inputKey] = $inputValue;
+            if( isset( $listTypes[$inputKey] ) ) $filtered[$inputKey] = $inputValue;
         }
         if( empty($filtered) ) return null;
         
