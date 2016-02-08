@@ -14,6 +14,8 @@ class Location extends \geolocation\components\CommonRecord
     public $_timezone;
     public $_currency;
     
+    protected $_listLocationIds;
+    
     /**
      * list of location types
      */
@@ -92,6 +94,8 @@ class Location extends \geolocation\components\CommonRecord
             [['inputCurrency'], function($attribute, $params) {
                 if( !is_null($this->$attribute) && empty( Currency::findOne( $this->$attribute ) ) ) $this->addError($attribute, Yii::t('geolocation','This currency does not exist.') );
             } ],
+            
+            [['listLocationIds'], 'validateListLocationIds'],
         ];
     }
 
@@ -126,7 +130,27 @@ class Location extends \geolocation\components\CommonRecord
             return [];
         }
     }
-
+    
+    /**
+     * @inheritdoc
+     */
+    public function setListLocationIds( $value )
+    {
+        if( is_array($value) ) {
+            $this->_listLocationIds = $value;
+        } else {
+            $this->_listLocationIds = [];
+        }
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function validateListLocationIds( $attribute )
+    {
+        return true;
+    }
+    
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -348,10 +372,52 @@ class Location extends \geolocation\components\CommonRecord
     }
     
     /**
+     * save LocationLinks
+     */
+    public function saveLinks( $direction )
+    {
+        if( !in_array($direction,['upper','lower']) ) return false;
+        
+        $currentListLocationIds = ArrayHelper::getColumn( $this->$direction, 'id' );
+        
+        $locations = self::find()
+            ->where([ 'id' => array_merge(array_keys($this->_listLocationIds), $currentListLocationIds) ])
+            ->all();
+        
+        if( !empty( $locations ) ) {
+            foreach( $locations as $location ) {
+                
+                if( isset($this->_listLocationIds[$location->id]) ) {
+                    
+                    if( !in_array( $location->id, $currentListLocationIds ) ) {
+                        
+                        if( $this->_listLocationIds[ $location->id ] === 'false' ) {
+                            $this->unlink($direction, $location, true);
+                        } else {
+                            $this->link($direction, $location);
+                        }
+                    
+                    } else {
+                        
+                        if( $this->_listLocationIds[ $location->id ] === 'false' ) $this->unlink($direction, $location, true);
+                        
+                    }
+                    
+                }
+                
+            }
+        }
+        
+        return true;
+    }
+    
+    /**
      * after save
      */
-    public function afterSave()
+    public function afterSave( $insert, $attr )
     {
+        // update timezone
+        
         $timezoneObj = ( empty($this->timeZoneObj) ) ? new LocationTimeZones(['location_id' => $this->id]) : $this->timeZoneObj;
         
         if( empty($this->inputTimezone) ) {
@@ -363,6 +429,8 @@ class Location extends \geolocation\components\CommonRecord
             }
         }
         
+        // update currency
+        
         $currencyObj = ( empty($this->currencyObj) ) ? new LocationCurrencies(['location_id' => $this->id]) : $this->currencyObj;
         
         if( empty($this->inputCurrency) ) {
@@ -373,5 +441,7 @@ class Location extends \geolocation\components\CommonRecord
                 $currencyObj->save();
             }
         }
+        
+        parent::afterSave($insert,$attr);
     }
 }
