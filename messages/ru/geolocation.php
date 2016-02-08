@@ -27,4 +27,11 @@ return [
     'Location Name' => 'Наименование',
     'Location Code' => 'Литерный код',
     'Location Type' => 'Тип',
+    
+    'Location Timezone' => 'Часовой пояс',
+    'Location Currency' => 'Валюта',
+    
+    'Property' => 'Свойство',
+    'Property Own Value' => 'Собственное значение',
+    'Property Parent Value' => 'Конечное значение (по вышестоящему)',
 ];
