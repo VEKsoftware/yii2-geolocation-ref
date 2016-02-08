@@ -38,4 +38,26 @@ return [
     'This currency does not exist.' => 'Такая валюта не существует.',
     
     'Inherit from parent' => 'Наследовать от вышестоящего',
+    
+    'Location' => 'Местоположение',
+    
+    'Location Properties' => 'Основные свойства',
+    'Location Additions' => 'Дополнительные свойства',
+    
+    'Location Upper List' => 'Список вышестоящих мест',
+    'Location Lower List' => 'Список нижестоящих мест',
+    
+    'Create Location' => 'Создать новое местоположение',
+    
+    'Update' => 'Редактировать',
+    
+    'Update Location Upper' => 'Изменить состав вышестоящих мест',
+    'Update Location Lower' => 'Изменить состав нижестоящих мест',
+    
+    'Save Location Links' => 'Сохранить изменения связей',
+    
+    'Linked' => 'Есть связь',
+    'Not linked' => 'Нет связи',
+    
+    'Some of these locations do not exist.' => 'Некоторые (или все) из переданных мест не существуют в БД.'
 ];
