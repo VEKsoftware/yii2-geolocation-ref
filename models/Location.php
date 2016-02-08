@@ -237,8 +237,8 @@ class Location extends \geolocation\components\CommonRecord
     public function getLower()
     {
         return $this->hasMany(Location::className(), ['id' => 'lower_id'])
-            ->via('locationLinksLower');
-//            ->from(['lower' => static::tableName()]);
+            ->via('locationLinksLower')
+            ->from(['lower' => static::tableName()]);
     }
     
     /**
@@ -254,7 +254,9 @@ class Location extends \geolocation\components\CommonRecord
      */
     public function getUpper()
     {
-        return $this->hasMany(Location::className(), ['id' => 'upper_id'])->via('locationLinksUpper');
+        return $this->hasMany(Location::className(), ['id' => 'upper_id'])
+            ->via('locationLinksUpper')
+            ->from(['upper' => static::tableName()]);
     }
     
     /**
@@ -262,7 +264,24 @@ class Location extends \geolocation\components\CommonRecord
      */
     public static function findById( $id )
     {
-        return static::find()->where(['id' => $id]);
+        return static::find()->where(['location.id' => $id]);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public static function findByUpperId( $id )
+    {
+        return static::find()->joinWith('upper')->where(['upper.id' => $id]);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public static function findFirst()
+    {
+        $types = ArrayHelper::map(static::$types,'tag','id');
+        return static::find()->where(['type_id' => $types['country']]);
     }
 
     /**
