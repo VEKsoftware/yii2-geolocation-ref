@@ -14,6 +14,8 @@ use geolocation\models\Location;
  */
 class LocationSearch extends Location
 {
+    protected $formName;
+    
     /**
      * @inheritdoc
      */
@@ -23,6 +25,15 @@ class LocationSearch extends Location
             [['id', 'type_id'], 'integer'],
             [['name'], 'string'],
         ];
+    }
+
+    /**
+     * custom formName() method
+     */
+    public function formName( $name = null )
+    {
+        if( !is_null($name) ) $this->formName = $name;
+        return ( is_null($this->formName) ) ? 'LocationSearch' : $this->formName;
     }
 
     /**
@@ -41,10 +52,12 @@ class LocationSearch extends Location
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $locationIds = null)
     {
         $query = Location::find();
-
+        
+        if( !is_null($locationIds) && is_array($locationIds) ) $query->where(['id' => $locationIds]);
+        
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
