@@ -11,6 +11,9 @@ use yii\helpers\ArrayHelper;
  */
 class Location extends \geolocation\components\CommonRecord
 {
+    public $_timezone;
+    public $_currency;
+    
     /**
      * list of location types
      */
@@ -82,6 +85,13 @@ class Location extends \geolocation\components\CommonRecord
             
             [['id','type_id'], 'integer'],
             [['name','code'], 'string'],
+            
+            [['inputTimezone'], 'string'],
+            
+            [['inputCurrency'], 'integer'],
+            [['inputCurrency'], function($attribute, $params) {
+                if( !is_null($this->$attribute) && empty( Currency::findOne( $this->$attribute ) ) ) $this->addError($attribute, Yii::t('geolocation','This currency does not exist.') );
+            } ],
         ];
     }
 
@@ -95,6 +105,8 @@ class Location extends \geolocation\components\CommonRecord
             'name' => Yii::t('geolocation', 'Location Name'),
             'code' => Yii::t('geolocation', 'Location Code'),
             'type_id' => Yii::t('geolocation', 'Location Type'),
+            'inputTimezone' => Yii::t('geolocation', 'Location Timezone'),
+            'inputCurrency' => Yii::t('geolocation', 'Location Currency'),
         ];
     }
 
@@ -134,6 +146,42 @@ class Location extends \geolocation\components\CommonRecord
         
         $lowest = $this->findLowestUpper();
         return ( !is_null($lowest) ) ? $lowest->timezone : null;
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function getInputTimezone()
+    {
+        if( !is_null($this->_timezone) ) return $this->_timezone;
+        if( !empty($this->timeZoneObj) ) return $this->timezone;
+        return null;
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function setInputTimezone( $value )
+    {
+        $this->_timezone = $value;
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function getInputCurrency()
+    {
+        if( !is_null($this->_currency) ) return $this->_currency;
+        if( !empty($this->currencyObj) ) return $this->currency->id;
+        return null;
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function setInputCurrency( $value )
+    {
+        $this->_currency = $value;
     }
     
     /**
@@ -278,5 +326,33 @@ class Location extends \geolocation\components\CommonRecord
         $uppers = $this->upper;
         $uppers[] = $this;
         return join(', ',ArrayHelper::getColumn($uppers,'name'));
+    }
+    
+    /**
+     * after save
+     */
+    public function afterSave()
+    {
+        $timezoneObj = ( empty($this->timeZoneObj) ) ? new LocationTimeZones(['location_id' => $this->id]) : $this->timeZoneObj;
+        
+        if( empty($this->inputTimezone) ) {
+            if( !$timezoneObj->isNewRecord ) $timezoneObj->delete();
+        } else {
+            if( $timezoneObj->timezone != $this->inputTimezone ) {
+                $timezoneObj->timezone = $this->inputTimezone;
+                $timezoneObj->save();
+            }
+        }
+        
+        $currencyObj = ( empty($this->currencyObj) ) ? new LocationCurrencies(['location_id' => $this->id]) : $this->currencyObj;
+        
+        if( empty($this->inputCurrency) ) {
+            if( !$currencyObj->isNewRecord ) $currencyObj->delete();
+        } else {
+            if( $currencyObj->curr_id != $this->inputCurrency ) {
+                $currencyObj->curr_id = $this->inputCurrency;
+                $currencyObj->save();
+            }
+        }
     }
 }

@@ -16,6 +16,14 @@ class LocationTimeZones extends \geolocation\components\CommonRecord
     {
         return '{{%location_timezones}}';
     }
+    
+    /**
+     * @inheritdoc
+     */
+    public static function primaryKey()
+    {
+        return ['location_id'];
+    }
 
     /**
      * @inheritdoc

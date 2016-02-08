@@ -33,5 +33,9 @@ return [
     
     'Property' => 'Свойство',
     'Property Own Value' => 'Собственное значение',
-    'Property Parent Value' => 'Конечное значение (по вышестоящему)',
+    'Property Parent Value' => 'Значение по вышестоящему',
+    
+    'This currency does not exist.' => 'Такая валюта не существует.',
+    
+    'Inherit from parent' => 'Наследовать от вышестоящего',
 ];

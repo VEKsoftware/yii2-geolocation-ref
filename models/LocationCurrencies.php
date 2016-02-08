@@ -16,6 +16,14 @@ class LocationCurrencies extends \geolocation\components\CommonRecord
     {
         return '{{%location_currencies}}';
     }
+    
+    /**
+     * @inheritdoc
+     */
+    public static function primaryKey()
+    {
+        return ['location_id'];
+    }
 
     /**
      * @inheritdoc
@@ -26,7 +34,7 @@ class LocationCurrencies extends \geolocation\components\CommonRecord
             [['location_id','curr_id'], 'required'],
             
             [['location_id','curr_id'], 'integer'],
-            [['location_id','curr_id'], 'unique', 'targetAttribute' => ['location_id','currency_id']]
+            [['location_id','curr_id'], 'unique', 'targetAttribute' => ['location_id','curr_id']]
         ];
     }
 
