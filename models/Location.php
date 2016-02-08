@@ -361,13 +361,38 @@ class Location extends \geolocation\components\CommonRecord
         return $query->one();
     }
 
+    public function byTag($tag)
+    {
+        $loc_types = ArrayHelper::map(static::$types,'tag','id');
+        if($this->type_id === $loc_types[$tag]) return $this;
+        foreach($this->upper as $idx => $obj) {
+            if($obj->type_id === $loc_types[$tag]) return $obj;
+        }
+        return NULL;
+    }
+
+    public function getCity()
+    {
+        return byTag('city');
+    }
+
+    public function getRegion()
+    {
+        return byTag('region');
+    }
+
+    public function getCountry()
+    {
+        return byTag('country');
+    }
+
     public function getFullName()
     {
         $uppers = $this->upper;
         $uppers[] = $this;
         return join(', ',ArrayHelper::getColumn($uppers,'name'));
     }
-    
+
     /**
      * save LocationLinks
      */
