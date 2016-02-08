@@ -37,6 +37,12 @@ class Location extends \geolocation\components\CommonRecord
         ],
         [
             'id' => 5,
+            'name' => 'Город',
+            'tag' => 'city',
+        ],
+/*
+        [
+            'id' => 5,
             'name' => 'Район',
             'tag' => 'county',
         ],
@@ -55,6 +61,7 @@ class Location extends \geolocation\components\CommonRecord
             'name' => 'Дом',
             'tag' => 'house',
         ],
+*/
     ];
     
     /**
@@ -181,7 +188,9 @@ class Location extends \geolocation\components\CommonRecord
      */
     public function getLower()
     {
-        return $this->hasMany(Location::className(), ['id' => 'lower_id'])->via('locationLinksLower');
+        return $this->hasMany(Location::className(), ['id' => 'lower_id'])
+            ->via('locationLinksLower');
+//            ->from(['lower' => static::tableName()]);
     }
     
     /**
