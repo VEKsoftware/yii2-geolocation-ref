@@ -362,11 +362,11 @@ class Location extends \geolocation\components\CommonRecord
             
         }
         
-        $result = $query->all();
-        if( is_array($result) && (count($result) == 1) ) return $result[0];
-        return $result;
+//        $result = $query->all();
+//        if( is_array($result) && (count($result) == 1) ) return $result[0];
+//        return $result;
         
-        //return $query->one();
+        return $query;
     }
 
     public function byTag($tag)
