@@ -381,17 +381,17 @@ class Location extends \geolocation\components\CommonRecord
 
     public function getCity()
     {
-        return byTag('city');
+        return $this->byTag('city');
     }
 
     public function getRegion()
     {
-        return byTag('region');
+        return $this->byTag('region');
     }
 
     public function getCountry()
     {
-        return byTag('country');
+        return $this->byTag('country');
     }
 
     public function getFullName()
