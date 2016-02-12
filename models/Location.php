@@ -299,6 +299,15 @@ class Location extends \geolocation\components\CommonRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public static function findByTag( $tag )
+    {
+        $loc_types = ArrayHelper::map(static::$types,'tag','id');
+        return static::find()->where(['type_id' => $loc_types[$tag]]);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public static function findByUpperId( $id )
     {
         return static::find()->joinWith('upper')->where(['upper.id' => $id]);
