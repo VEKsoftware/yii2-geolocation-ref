@@ -302,7 +302,7 @@ class Location extends \geolocation\components\CommonRecord
     public static function findByTag( $tag )
     {
         $loc_types = ArrayHelper::map(static::$types,'tag','id');
-        return static::find()->where(['type_id' => $loc_types[$tag]]);
+        return static::find()->where(['location.type_id' => $loc_types[$tag]]);
     }
 
     /**
