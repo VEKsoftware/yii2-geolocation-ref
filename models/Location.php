@@ -216,9 +216,16 @@ class Location extends \geolocation\components\CommonRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCurrencyObj()
+    public function getCurrencyLink()
     {
         return $this->hasOne(LocationCurrencies::className(), ['location_id' => 'id']);
+    }
+
+    public function getCurrencyObj()
+    {
+        return $this->hasOne(Currency::className(), ['id' => 'curr_id'])
+            ->via('currencyLink')
+        ;
     }
     
     /**
@@ -228,10 +235,12 @@ class Location extends \geolocation\components\CommonRecord
      */
     public function getCurrency()
     {
-        if ( !empty($this->currencyObj) ) return $this->currencyObj->currency;
+        if ( isset($this->currencyObj) ) return $this->currencyObj;
         
-        $lowest = $this->findLowestUpper();
-        return ( !is_null($lowest) ) ? $lowest->currency : null;
+        foreach($this->getUpper()->with('currencyObj')->orderBy('type_id')->each() as $upper) {
+            if(isset($upper->currencyObj)) return $upper->currencyObj;
+        }
+        return NULL;
     }
     
     /**
