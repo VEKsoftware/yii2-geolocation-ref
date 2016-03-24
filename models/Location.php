@@ -5,6 +5,7 @@ namespace geolocation\models;
 use Yii;
 
 use yii\helpers\ArrayHelper;
+use libphonenumber\PhoneNumberUtil;
 
 /**
  * This is the model class for table "{{%location}}".
@@ -417,6 +418,21 @@ class Location extends \geolocation\components\CommonRecord
         $uppers = $this->upper;
         $uppers[] = $this;
         return join(', ',ArrayHelper::getColumn($uppers,'name'));
+    }
+
+    public function getPhoneCode()
+    {
+        $listTypes = ArrayHelper::map( static::$types, 'tag', 'id' );
+        $country_type_id = $listTypes['country'];
+        if($this->type_id === $country_type_id && $this->code) {
+            $phoneUtil = PhoneNumberUtil::getInstance();
+            try {
+                $phoneCode = $phoneUtil->getCountryCodeForRegion(mb_strtoupper($this->code));
+                return $phoneCode;
+            } catch (\Exception $e) {
+                return NULL;
+            }
+        }
     }
 
     /**
