@@ -131,8 +131,8 @@ class GeolocationMigration extends Migration
      */
     public function safeUp()
     {
-        $this->createTables( $schema );
-        $this->createTableRelations( $schema );
+        $this->createTables();
+        $this->createTableRelations();
     }
     
     /**
@@ -140,8 +140,8 @@ class GeolocationMigration extends Migration
      */
     public function safeDown()
     {
-        $this->deleteTableRelations( $schema );
-        $this->deleteTables( $schema );
+        $this->deleteTableRelations();
+        $this->deleteTables();
     }
     
     /**
@@ -161,14 +161,6 @@ class GeolocationMigration extends Migration
     }
     
     /**
-     * создать связи между таблицами
-     */
-    private function createTableRelations()
-    {
-        $this->createTableLocationRelations();
-    }
-    
-    /**
      * удаление таблиц
      */
     private function deleteTables()
@@ -182,14 +174,6 @@ class GeolocationMigration extends Migration
         if( in_array($this->tableNameLocationLinks, $tableNames) ) $this->dropTable( $this->tableNameLocationLinks );
         if( in_array($this->tableNameLocationTimezones, $tableNames) ) $this->dropTable( $this->tableNameLocationTimezones );
         if( in_array($this->tableNameCurrencies, $tableNames) ) $this->dropTable( $this->tableNameCurrencies );
-    }
-    
-    /**
-     * убрать связи между таблицами
-     */
-    private function deleteTableRelations()
-    {
-        $this->deleteTableLocationRelations();
     }
     
     /**
@@ -270,7 +254,7 @@ class GeolocationMigration extends Migration
     }
     
     /**
-     * создать индексы и связи для таблицы локаций
+     * создать индексы и связи для таблиц
      */
     private function createTableRelations()
     {
@@ -292,7 +276,7 @@ class GeolocationMigration extends Migration
     }
     
     /**
-     * удалить индексы и связи для таблицы локаций
+     * удалить индексы и связи для таблиц
      */
     private function deleteTableRelations()
     {
