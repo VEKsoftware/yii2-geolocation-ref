@@ -1,5 +1,7 @@
 <?php
 
+namespace geolocation\migrations;
+
 use yii\db\Migration;
 
 /**
