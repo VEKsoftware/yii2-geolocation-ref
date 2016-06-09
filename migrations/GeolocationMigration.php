@@ -149,7 +149,7 @@ class GeolocationMigration extends Migration
     /**
      * создание таблиц
      */
-    private function createTables()
+    protected function createTables()
     {
         $schema = $this->db->schema;
         $tableNames = $schema->getTableNames();
@@ -165,7 +165,7 @@ class GeolocationMigration extends Migration
     /**
      * удаление таблиц
      */
-    private function deleteTables()
+    protected function deleteTables()
     {
         $schema = $this->db->schema;
         $tableNames = $schema->getTableNames();
@@ -181,7 +181,7 @@ class GeolocationMigration extends Migration
     /**
      * создание таблицы для локаций
      */
-    private function createTableLocation()
+    protected function createTableLocation()
     {
         $this->createTable( $this->tableNameLocation, [
             'id' => $this->primaryKey(),
@@ -197,7 +197,7 @@ class GeolocationMigration extends Migration
     /**
      * создание таблицы для связи локаций и валюты
      */
-    private function createTableLocationCurrencies()
+    protected function createTableLocationCurrencies()
     {
         $this->createTable( $this->tableNameLocationCurrencies, [
             'location_id' => $this->integer()->notNull(), // integer NOT NULL,
@@ -211,7 +211,7 @@ class GeolocationMigration extends Migration
     /**
      * создание таблицы для связи локаций друг с другом
      */
-    private function createTableLocationLinks()
+    protected function createTableLocationLinks()
     {
         $this->createTable( $this->tableNameLocationLinks, [
             'upper_id' => $this->integer()->notNull(), // integer NOT NULL,
@@ -226,7 +226,7 @@ class GeolocationMigration extends Migration
     /**
      * создание таблицы для связи локаций друг с другом
      */
-    private function createTableLocationTimezones()
+    protected function createTableLocationTimezones()
     {
         $this->createTable( $this->tableNameLocationTimezones, [
             'location_id' => $this->integer()->notNull(), // integer NOT NULL,
@@ -240,7 +240,7 @@ class GeolocationMigration extends Migration
     /**
      * создание таблицы для валют
      */
-    private function createTableCurrencies()
+    protected function createTableCurrencies()
     {
         $this->createTable( $this->tableNameCurrencies, [
             'id' => $this->primaryKey(),
@@ -258,7 +258,7 @@ class GeolocationMigration extends Migration
     /**
      * создать индексы и связи для таблиц
      */
-    private function createTableRelations()
+    protected function createTableRelations()
     {
         // таблица LocationCurrencies
         // поле "curr_id"
@@ -280,7 +280,7 @@ class GeolocationMigration extends Migration
     /**
      * удалить индексы и связи для таблиц
      */
-    private function deleteTableRelations()
+    protected function deleteTableRelations()
     {
         // таблица LocationCurrencies
         // поле "curr_id"
@@ -302,7 +302,7 @@ class GeolocationMigration extends Migration
     /**
      * создать связь с полем другой таблицы
      */
-    private function createForeign( $tableName, $field, $targetTableName, $targetField )
+    protected function createForeign( $tableName, $field, $targetTableName, $targetField )
     {
         // поле "currency"
         $this->createIndex(
@@ -324,7 +324,7 @@ class GeolocationMigration extends Migration
     /**
      * убрать связь с полем другой таблицы
      */
-    private function deleteForeign( $tableName, $field, $targetTableName, $targetField )
+    protected function deleteForeign( $tableName, $field, $targetTableName, $targetField )
     {
         $this->dropForeignKey( $this->createForeignName( $tableName, $field ), $tableName);
         $this->dropIndex( $this->createIndexName( $tableName, $field ), $tableName);
@@ -333,7 +333,7 @@ class GeolocationMigration extends Migration
     /**
      * создать нименование для индекса
      */
-    private function createIndexName( $tableName, $field )
+    protected function createIndexName( $tableName, $field )
     {
         return 'fki_'.$tableName.'_'.$field;
     }
@@ -341,7 +341,7 @@ class GeolocationMigration extends Migration
     /**
      * создать наименование для связи
      */
-    private function createForeignName( $tableName, $field )
+    protected function createForeignName( $tableName, $field )
     {
         return $tableName.'_'.$field;
     }
