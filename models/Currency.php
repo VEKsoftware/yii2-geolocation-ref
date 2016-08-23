@@ -82,6 +82,16 @@ class Currency extends \geolocation\components\CommonRecord
         return sprintf($this->fmt, $amount);
     }
 
+    public function getArray()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'full_name' => $this->full_name,
+            'format' => $this->fmt,
+        ];
+    }
+
     /**
      * Yield a list of all available currencies
      */
