@@ -228,20 +228,41 @@ class Location extends \geolocation\components\CommonRecord
             ->via('currencyLink')
         ;
     }
-    
+
     /**
      * currency for current object or for his nearest upper object
-     * 
+     *
      * @return currency AS object (or return NULL)
+     *
+     * @throws \Exception
      */
     public function getCurrency()
     {
-        if ( isset($this->currencyObj) ) return $this->currencyObj;
-        
-        foreach($this->getUpper()->with('currencyObj')->orderBy('type_id')->each() as $upper) {
-            if(isset($upper->currencyObj)) return $upper->currencyObj;
+        $currency = static::getDb()->cache(
+            function ($db) {
+                return $this->currencyObj;
+            },
+            600
+        );
+
+        if (isset($currency)) {
+            return $currency;
         }
-        return NULL;
+
+        foreach ($this->getUpper()->with('currencyObj')->orderBy('type_id')->each() as $upper) {
+            $currency = static::getDb()->cache(
+                function ($db) use ($upper) {
+                    return $upper->currencyObj;
+                },
+                600
+            );
+
+            if (isset($currency)) {
+                return $currency;
+            }
+        }
+
+        return null;
     }
     
     /**
@@ -390,12 +411,25 @@ class Location extends \geolocation\components\CommonRecord
 
     public function byTag($tag)
     {
-        $loc_types = ArrayHelper::map(static::$types,'tag','id');
-        if($this->type_id === $loc_types[$tag]) return $this;
-        foreach($this->upper as $idx => $obj) {
-            if($obj->type_id === $loc_types[$tag]) return $obj;
+        $loc_types = ArrayHelper::map(static::$types, 'tag', 'id');
+        if ($this->type_id === $loc_types[$tag]) {
+            return $this;
         }
-        return NULL;
+
+        $upper = static::getDb()->cache(
+            function ($db) {
+                return $this->upper;
+            },
+            600
+        );
+
+        foreach ($upper as $idx => $obj) {
+            if ($obj->type_id === $loc_types[$tag]) {
+                return $obj;
+            }
+        }
+
+        return null;
     }
 
     public function getCity()
