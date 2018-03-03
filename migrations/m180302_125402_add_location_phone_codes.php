@@ -1,9 +1,21 @@
 <?php
 
 use yii\db\Migration;
+use yii\db\Query;
+
+use geolocation\models\Location;
 
 class m180302_125402_add_location_phone_codes extends Migration
 {
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+        $this->db = Location::getDb();
+    }
+    
     /**
      * @return mixed[]
      */
@@ -15,66 +27,6 @@ class m180302_125402_add_location_phone_codes extends Migration
                 'symbolic_id' => 'ru',
                 'code' => '+7',
                 // 'regexp' => '/^\+7/',
-            ],
-            [
-                // 'country' => 'Azərbaycan',
-                'symbolic_id' => 'az',
-                'code' => '+994',
-                // 'regexp' => '/^\+994/',
-            ],
-            [
-                // 'country' => 'Armenia',
-                'symbolic_id' => 'am',
-                'code' => '+374',
-                // 'regexp' => '/^\+374/',
-            ],
-            [
-                // 'country' => 'Belarus',
-                'symbolic_id' => 'by',
-                'code' => '+375',
-                // 'regexp' => '/^\+375/',
-            ],
-            [
-                // 'country' => 'Kazakhstan',
-                'symbolic_id' => 'kz',
-                'code' => '+7',
-                // 'regexp' => '/^\+7/',
-            ],
-            [
-                // 'country' => 'Kyrgyzstan',
-                'symbolic_id' => 'kg',
-                'code' => '+996',
-                // 'regexp' => '/^\+996/',
-            ],
-            [
-                // 'country' => 'Moldova',
-                'symbolic_id' => 'md',
-                'code' => '+373',
-                // 'regexp' => '/^\+373/',
-            ],
-            [
-                // 'country' => 'Tadjikistan',
-                'symbolic_id' => 'tj',
-                'code' => '+992',
-                // 'regexp' => '/^\+992/',
-            ],
-            [
-                // 'country' => 'Turkmenistan',
-                'symbolic_id' => 'tm',
-                'code' => '+993',
-                // 'regexp' => '/^\+993/',
-            ],
-            [
-                // 'country' => 'Uzbekistan',
-                'symbolic_id' => 'uz',
-                'code' => '+998',
-                // 'regexp' => '/^\+998/',
-            ],
-            [
-                // 'country' => 'Ukraine',
-                'symbolic_id' => 'ua',
-                'code' => '+380',
-                // 'regexp' => '/^\+380/',
             ],
         ];
     }
@@ -122,6 +74,25 @@ class m180302_125402_add_location_phone_codes extends Migration
             'public.phone_codes',
             array_keys($this->data()[0]),
             $this->data()
+        );
+        
+        $locationPhoneCodes = (new Query())
+            ->select([
+                'phone_code_id' => 'pc.id',
+                'location_id' => 'loc.id',
+            ])
+            ->from(['pc' => 'public.phone_codes'])
+            ->innerJoin(
+                ['loc' => 'public.location'],
+                'loc.type_id = 2 AND loc.code = pc.symbolic_id'
+            )
+            ->createCommand($this->db)
+            ->queryAll();
+            
+        $this->batchInsert(
+            'public.location_phone_codes',
+            ['location_id', 'phone_code_id'],
+            $locationPhoneCodes
         );
     }
 
