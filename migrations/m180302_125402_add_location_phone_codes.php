@@ -98,8 +98,10 @@ class m180302_125402_add_location_phone_codes extends Migration
 
     public function safeDown()
     {
-        echo "m180302_125402_add_location_phone_codes cannot be reverted.\n";
-
-        return false;
+        $this->truncateTable('public.location_phone_codes');
+        $this->truncateTable('public.phone_codes');
+        
+        $this->dropTable('public.location_phone_codes');
+        $this->dropTable('public.phone_codes');
     }
 }
