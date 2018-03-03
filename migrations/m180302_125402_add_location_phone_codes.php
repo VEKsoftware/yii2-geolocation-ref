@@ -91,16 +91,13 @@ class m180302_125402_add_location_phone_codes extends Migration
             
         $this->batchInsert(
             'public.location_phone_codes',
-            ['location_id', 'phone_code_id'],
+            array_keys($locationPhoneCodes[0]),
             $locationPhoneCodes
         );
     }
 
     public function safeDown()
     {
-        $this->truncateTable('public.location_phone_codes');
-        $this->truncateTable('public.phone_codes');
-        
         $this->dropTable('public.location_phone_codes');
         $this->dropTable('public.phone_codes');
     }
