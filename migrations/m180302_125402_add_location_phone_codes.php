@@ -11,84 +11,70 @@ class m180302_125402_add_location_phone_codes extends Migration
     {
         return [
             [
-                'country' => 'Россия',
-                'code' => [
-                    'symbolic_id' => 'ru',
-                    'code' => '+7',
-                    'regexp' => '/^\+7/',
-                ],
+                // 'country' => 'Россия',
+                'symbolic_id' => 'ru',
+                'code' => '+7',
+                // 'regexp' => '/^\+7/',
             ],
             [
-                'country' => 'Armenia',
-                'code' => [
-                    'symbolic_id' => 'am',
-                    'code' => '+374',
-                    'regexp' => '/^\+374/',
-                ],
+                // 'country' => 'Azərbaycan',
+                'symbolic_id' => 'az',
+                'code' => '+994',
+                // 'regexp' => '/^\+994/',
             ],
             [
-                'country' => 'Belarus',
-                'code' => [
-                    'symbolic_id' => 'by',
-                    'code' => '+375',
-                    'regexp' => '/^\+375/',
-                ],
+                // 'country' => 'Armenia',
+                'symbolic_id' => 'am',
+                'code' => '+374',
+                // 'regexp' => '/^\+374/',
             ],
             [
-                'country' => 'Kazakhstan',
-                'code' => [
-                    'symbolic_id' => 'kz',
-                    'code' => '+7',
-                    'regexp' => '/^\+7/',
-                ],
+                // 'country' => 'Belarus',
+                'symbolic_id' => 'by',
+                'code' => '+375',
+                // 'regexp' => '/^\+375/',
             ],
             [
-                'country' => 'Kyrgyzstan',
-                'code' => [
-                    'symbolic_id' => 'kg',
-                    'code' => '+996',
-                    'regexp' => '/^\+996/',
-                ],
+                // 'country' => 'Kazakhstan',
+                'symbolic_id' => 'kz',
+                'code' => '+7',
+                // 'regexp' => '/^\+7/',
             ],
             [
-                'country' => 'Moldova',
-                'code' => [
-                    'symbolic_id' => 'md',
-                    'code' => '+373',
-                    'regexp' => '/^\+373/',
-                ],
+                // 'country' => 'Kyrgyzstan',
+                'symbolic_id' => 'kg',
+                'code' => '+996',
+                // 'regexp' => '/^\+996/',
             ],
             [
-                'country' => 'Tadjikistan',
-                'code' => [
-                    'symbolic_id' => 'tj',
-                    'code' => '+992',
-                    'regexp' => '/^\+992/',
-                ],
+                // 'country' => 'Moldova',
+                'symbolic_id' => 'md',
+                'code' => '+373',
+                // 'regexp' => '/^\+373/',
             ],
             [
-                'country' => 'Turkmenistan',
-                'code' => [
-                    'symbolic_id' => 'tm',
-                    'code' => '+993',
-                    'regexp' => '/^\+993/',
-                ],
+                // 'country' => 'Tadjikistan',
+                'symbolic_id' => 'tj',
+                'code' => '+992',
+                // 'regexp' => '/^\+992/',
             ],
             [
-                'country' => 'Uzbekistan',
-                'code' => [
-                    'symbolic_id' => 'uz',
-                    'code' => '+998',
-                    'regexp' => '/^\+998/',
-                ],
+                // 'country' => 'Turkmenistan',
+                'symbolic_id' => 'tm',
+                'code' => '+993',
+                // 'regexp' => '/^\+993/',
             ],
             [
-                'country' => 'Ukraine',
-                'code' => [
-                    'symbolic_id' => 'ua',
-                    'code' => '+380',
-                    'regexp' => '/^\+380/',
-                ],
+                // 'country' => 'Uzbekistan',
+                'symbolic_id' => 'uz',
+                'code' => '+998',
+                // 'regexp' => '/^\+998/',
+            ],
+            [
+                // 'country' => 'Ukraine',
+                'symbolic_id' => 'ua',
+                'code' => '+380',
+                // 'regexp' => '/^\+380/',
             ],
         ];
     }
@@ -130,6 +116,12 @@ class m180302_125402_add_location_phone_codes extends Migration
             'id',
             'CASCADE',
             'CASCADE'
+        );
+        
+        $this->batchInsert(
+            'public.phone_codes',
+            array_keys($this->data()[0]),
+            $this->data()
         );
     }
 
