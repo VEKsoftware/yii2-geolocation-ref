@@ -57,7 +57,7 @@ class Currency extends \geolocation\components\CommonRecord
             'full_name' => Yii::t('geolocation', 'Currency Full Name'),
             'fmt' => Yii::t('geolocation', 'Currency Fmt'),
             'iso_code' => Yii::t('geolocation', 'Currency Iso Code'),
-            'symbol' => Yii:t('geolocation', 'Currency Symbol'),
+            'symbol' => Yii::t('geolocation', 'Currency Symbol'),
             //'countries' => Yii::t('geolocation', 'Countries'),
         ];
     }
