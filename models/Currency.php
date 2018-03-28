@@ -14,6 +14,7 @@ use yii\helpers\ArrayHelper;
  * @property string $full_name
  * @property string $fmt
  * @property string $countries
+ * @property string $symbol
  *
  * @property Payments[] $payments
  * @property PaymentsLog[] $paymentsLogs
@@ -56,6 +57,7 @@ class Currency extends \geolocation\components\CommonRecord
             'full_name' => Yii::t('geolocation', 'Currency Full Name'),
             'fmt' => Yii::t('geolocation', 'Currency Fmt'),
             'iso_code' => Yii::t('geolocation', 'Currency Iso Code'),
+            'symbol' => Yii:t('geolocation', 'Currency Symbol'),
             //'countries' => Yii::t('geolocation', 'Countries'),
         ];
     }
@@ -89,6 +91,7 @@ class Currency extends \geolocation\components\CommonRecord
             'name' => $this->name,
             'full_name' => $this->full_name,
             'format' => $this->fmt,
+            'symbol' => $this->symbol,
         ];
     }
 
@@ -101,5 +104,15 @@ class Currency extends \geolocation\components\CommonRecord
         if( !empty( $currency ) ) return ArrayHelper::map( $currency, 'id', 'name' );
         return [];
     }
-
+    
+    /**
+     * (rus.) Символ валюты. Предполагается, что это символ в кодировке "UTF-8".
+     * Значение свойства формируется на основе свойства $fmt, которое записано в БД.
+     * @return string
+     */
+    public function getSymbol(): string
+    {
+        $symbol = preg_replace('/(^(%s|\ )+)|((%s|\ )+$)/', '', $this->fmt);
+        return $symbol;
+    }
 }
